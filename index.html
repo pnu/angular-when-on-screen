@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>whenOnScreen demo</title>
+    <script data-require="angular.js@1.3.x" src="https://code.angularjs.org/1.3.5/angular.js" data-semver="1.3.5"></script>
+    <script src="angular-when-on-screen.js"></script>
+    <script>(function(){
+        var app = angular.module("whenOnScreenDemo", ['whenOnScreen']);
+        app.controller('someOuterScope', function($scope,$log) {
+            $scope.ping = function() { $log.debug('pong') };
+        });
+    })();</script>
+    <style>
+        div.wrapper { height: 100%; position: absolute; }
+        div.filler { height: 150%; }
+        div.scroll-here { height: 50%; background-color: red; }
+    </style>
+</head>
+<body ng-app="whenOnScreenDemo">
+    <div class="wrapper" ng-controller="someOuterScope">
+        <p>Scroll down to the red block and observe the debug log.
+        The specified angular expression is evaluated once when the element
+        enters the visible screen area.</p>
+        <div class="filler"></div>
+        <div class="scroll-here" when-on-screen="ping()"></div>
+        <div class="filler"></div>
+    </div>
+</body>
+</html>
