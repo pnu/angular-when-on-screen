@@ -1,6 +1,6 @@
 {
   "name": "angular-when-on-screen",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Directive to trigger evaluation of an angular expression when the element enters visible screen area.",
   "main": "angular-when-on-screen.js",
   "ignore": [

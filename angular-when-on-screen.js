@@ -14,16 +14,17 @@ module.directive("whenOnScreen", [ "$window", function($window) { return {
     require: '?^whenOnScreenScroller',
     restrict: "A",
     link: function(scope, el, attr, scroller) {
-        var onScreenPrev = false;
+        var inViewPrev = false;
         var onScroll = function() {
-            var currentScrollY = scroller ? scroller.el[0].scrollTop : $window.scrollY;
-            var elHeight = el[0].scrollHeight;
-            var elTopYPos = el[0].offsetTop - currentScrollY;
-            var elBottomYPos = elTopYPos + elHeight;
-            var scrollerHeight = scroller ? scroller.el[0].clientHeight : $window.innerHeight;
-            var onScreen = !(elBottomYPos < 0 || elTopYPos > scrollerHeight);
-            if (onScreen && !onScreenPrev) scope.whenOnScreen();
-            onScreenPrev = onScreen;
+            var scEl = scroller ? scroller.el[0] : undefined;
+            var scElYPos =   scEl ? scEl.offsetTop + scEl.clientTop : 0;
+            var scElHeight = scEl ? scEl.clientHeight : $window.innerHeight;
+            var scrollY =    scEl ? scEl.scrollTop : $window.scrollY;
+            var elTopY = el[0].offsetTop - scElYPos - scrollY;
+            var elBottomY = elTopY + el[0].scrollHeight;
+            var inView = elBottomY > 0 && elTopY < scElHeight;
+            if (inView && !inViewPrev) scope.whenOnScreen();
+            inViewPrev = inView;
         };
         var scrollerEl = scroller ? scroller.el : angular.element($window);
         scrollerEl.on("scroll", onScroll);
