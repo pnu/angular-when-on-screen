@@ -7,23 +7,27 @@
     <script>(function(){
         var app = angular.module("whenOnScreenDemo", ['whenOnScreen']);
         app.controller('someOuterScope', function($scope,$log) {
-            $scope.ping = function() { $log.debug('pong') };
+            $scope.ping = function(m) { $log.debug(m) };
         });
     })();</script>
     <style>
-        div.wrapper { height: 100%; position: absolute; }
+        body { height: 100%; position: absolute; }
+        div.wrapper { height: 50%; border-style: dashed; overflow: scroll; }
         div.filler { height: 150%; }
         div.scroll-here { height: 50%; background-color: red; }
     </style>
 </head>
-<body ng-app="whenOnScreenDemo">
-    <div class="wrapper" ng-controller="someOuterScope">
-        <p>Scroll down to the red block and observe the debug log.
-        The specified angular expression is evaluated once when the element
-        enters the visible screen area.</p>
+<body ng-app="whenOnScreenDemo" ng-controller="someOuterScope">
+    <p>Scroll down to the red block and observe the debug log.
+    The specified angular expression is evaluated once when the element
+    enters the visible screen area.</p>
+    <div class="wrapper" ng-controller="someOuterScope" when-on-screen-scroller>
         <div class="filler"></div>
-        <div class="scroll-here" when-on-screen="ping()"></div>
+        <div class="scroll-here" when-on-screen="ping('div scroller')"></div>
         <div class="filler"></div>
     </div>
+    <div class="filler"></div>
+    <div class="scroll-here" when-on-screen="ping('window scroller')"></div>
+    <div class="filler"></div>
 </body>
 </html>
