@@ -19,7 +19,7 @@ module.directive("whenOnScreen", [ "$window", function($window) { return {
             var scEl = scroller ? scroller.el[0] : undefined;
             var scElYPos =   scEl ? scEl.offsetTop + scEl.clientTop : 0;
             var scElHeight = scEl ? scEl.clientHeight : $window.innerHeight;
-            var scrollY =    scEl ? scEl.scrollTop : $window.scrollY;
+            var scrollY =    scEl ? scEl.scrollTop : $window.scrollY || $window.pageYOffset;
             var elTopY = el[0].offsetTop - scElYPos - scrollY;
             var elBottomY = elTopY + el[0].scrollHeight;
             var inView = elBottomY > 0 && elTopY < scElHeight;
