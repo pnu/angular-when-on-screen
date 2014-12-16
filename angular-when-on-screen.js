@@ -23,11 +23,13 @@ module.directive("whenOnScreen", [ "$window", function($window) { return {
             var elTopY = el[0].offsetTop - scElYPos - scrollY;
             var elBottomY = elTopY + el[0].scrollHeight;
             var inView = elBottomY > 0 && elTopY < scElHeight;
-            if (inView && !inViewPrev) scope.whenOnScreen();
+            if (inView && !inViewPrev) scope.$evalAsync( function(s) {
+                s.whenOnScreen();
+            });
             inViewPrev = inView;
         };
         var scrollerEl = scroller ? scroller.el : angular.element($window);
-        scrollerEl.on("scroll", onScroll);
+        onScroll(); scrollerEl.on("scroll", onScroll);
         scope.$on("$destroy", function() {
             scrollerEl.off("scroll", onScroll);
         });
