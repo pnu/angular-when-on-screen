@@ -30,6 +30,7 @@ module.directive("whenOnScreen", [ "$window", function($window) { return {
         };
         var scrollerEl = scroller ? scroller.el : angular.element($window);
         onScroll(); scrollerEl.on("scroll", onScroll);
+        setInterval(onScroll, 500);
         scope.$on("$destroy", function() {
             scrollerEl.off("scroll", onScroll);
         });
